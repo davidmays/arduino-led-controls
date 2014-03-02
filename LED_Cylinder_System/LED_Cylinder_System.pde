@@ -1,58 +1,57 @@
 /* 
-LEDcube Arduino version 
-David Mays 1/17/2009
-*/
+ LEDcube Arduino version 
+ David Mays 1/17/2009
+ */
 
 #include <avr/pgmspace.h>
 #include "PinPatterns.h"
 
 int ResetPlanes()
 {
-      Serial.print("Resetting Planes");
-      for (int plane=0; plane<HEIGHT; plane++) 
-      {
-        // turn previous plane off
-        if (plane==0) {
-          digitalWrite( PlanePin[HEIGHT-1], HIGH );
-        } else {
-          digitalWrite( PlanePin[plane-1], HIGH );
-        }
-      }
+  Serial.println("Resetting Planes");
+  for (int pIdx=0; pIdx<HEIGHT; pIdx++) 
+  {
+    // turn previous plane off
+    if (pIdx==0) {
+      digitalWrite( PlanePin[HEIGHT-1], HIGH );
+    } 
+    else {
+      digitalWrite( PlanePin[pIdx-1], HIGH );
+    }
+  }
 }
 
 
 int WriteEventToPins(CylinderEventDef event)
 {
   Serial.println("Writing Event");
-  
-  for (int plane=0; plane<HEIGHT; plane++) 
+
+  for (int planeIdx=0; planeIdx<HEIGHT; planeIdx++) 
   {
-        Serial.print("Plane:");
-        Serial.println(plane);
-        
-        // load current plane pattern data into ports
-        for (int X=0; X<PLANESIZE; X++) 
-        {
-            int pin = X+1;
+    Serial.print("Plane:");
+    Serial.println(planeIdx);
 
-            Serial.print("Pin:");
-            Serial.println(pin);
+    // load current plane pattern data into ports
+    for (int X=0; X<PLANESIZE; X++) 
+    {
 
-            byte state = event.Plane[plane].Ring[X];
+      Serial.print("Pin:");
+      Serial.print(X);
 
-            Serial.print("State:");
-            Serial.println(state);
-            
-            digitalWrite(pin , state);
-          }
-        } 
+      prog_uint8_t state = event.Plane[planeIdx].Ring[X];
 
-        // turn current plane on
-        Serial.print("Activating Plane:");
-        Serial.println(plane);
+      Serial.print(" State:");
+      Serial.print(state);
 
-        digitalWrite( PlanePin[plane], LOW );
-        delayMicroseconds( PLANETIME );
+      digitalWrite(X , state);
+    }
+
+
+    // turn current plane on
+    Serial.print("Activating Plane");
+
+    digitalWrite( PlanePin[planeIdx], LOW );
+    delayMicroseconds( PLANETIME );
   }
 
   return 0;
@@ -62,15 +61,23 @@ int WriteEventToPins(CylinderEventDef event)
 // initialization
 void setup()
 {
+  Serial.begin(38400);
+  Serial.println("setup");
+
   int pin;      // loop counter
   // set up LED pins as output (active HIGH)
-  for (pin=0; pin<HEIGHT; pin++) 
+  for (pin=0; pin<PLANESIZE; pin++) 
   {
+    Serial.print("led:");
+    Serial.println(LEDPin[pin]);
+
     pinMode( LEDPin[pin], OUTPUT );
   }
   // set up plane pins as outputs (active LOW) 
-  for (pin=0; pin<PLANESIZE; pin++) 
+  for (pin=0; pin<HEIGHT; pin++) 
   {
+    Serial.print("plane:");
+    Serial.println(PlanePin[pin]);
     pinMode( PlanePin[pin], OUTPUT );
   }
 }
@@ -78,25 +85,16 @@ void setup()
 
 void loop()
 {
+  Serial.println("loop");
 
-  byte DisplayTime;        // time*100ms to display pattern
-  unsigned long EndTime;
-
-
-  do
+  while(millis() < 100000000)
   {
-    EndTime = millis() + ((unsigned long) DisplayTime) * TIMECONST;
-      
-    while(millis() < EndTime)
+    for(int eventIdx=0;eventIdx < sizeof(Events);eventIdx++)
     {
-      for(int eventIdx=0;eventIdx<sizeof(Events);eventIdx++)
-      {
-        ResetPlanes();
-        WriteEventToPins(Events[eventIdx]);
-      }
+      ResetPlanes();
+      WriteEventToPins(Events[eventIdx]);
     }
-      
-
   }
-  while(DisplayTime > 0);
+
+
 }

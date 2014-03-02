@@ -4,7 +4,7 @@
 #define LOW 0x0
 
 CubeEventDef event1 = {
-  5,
+  500,
   {
     {
     HIGH,LOW,HIGH,LOW,
@@ -33,7 +33,8 @@ CubeEventDef event1 = {
   }
 };
 
-CubeEventDef event2 = {5,
+CubeEventDef event2 = {
+  500,
 {
   {
   LOW,HIGH,LOW,HIGH,
@@ -64,5 +65,5 @@ CubeEventDef event2 = {5,
 
 CubeEventDef Events[] = 
 {
-event1, event2
+event1
 };

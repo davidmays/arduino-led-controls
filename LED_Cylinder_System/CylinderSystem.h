@@ -8,7 +8,7 @@ Arrays to define the pins on the Arduino board
 
 */
 
-#define HEIGHT 8
+#define HEIGHT 3
 #define PLANESIZE 8
 #define PLANETIME 3333          // time each plane is displayed in us -> 100 Hz refresh
 #define TIMECONST 100          // multiplies DisplayTime to get ms - why not =100?
@@ -29,7 +29,7 @@ typedef struct{
 
 
 int LEDPin[] = {0,1,2,3,4,5,6,7};
-int PlanePin[] = {8,9,10,11,12,13,14,15};
+int PlanePin[] = {8,9,10};
 
 
 

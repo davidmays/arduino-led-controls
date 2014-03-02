@@ -64,16 +64,18 @@ int WriteEventToPins(CubeEventDef event)
 // initialization
 void setup()
 {
+  
+  Serial.begin(9600);
   int pin;      // loop counter
   // set up LED pins as output (active HIGH)
   for (pin=0; pin<PLANESIZE; pin++) 
   {
-    pinMode( LEDPin[pin], OUTPUT );
+    pinMode( PlanePin[pin], OUTPUT );
   }
   // set up plane pins as outputs (active LOW) 
   for (pin=0; pin<CUBESIZE; pin++) 
   {
-    pinMode( PlanePin[pin], OUTPUT );
+    pinMode( LEDPin[pin], OUTPUT );
   }
 }
 
