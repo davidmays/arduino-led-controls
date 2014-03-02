@@ -1,0 +1,37 @@
+#include "CylinderSystem.h"
+
+#define HIGH 0x1
+#define LOW 0x0
+
+CylinderEventDef event1 = {
+  5,
+  {
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},    
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},    
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW}    
+  }
+};
+
+CylinderEventDef event2 = {
+  5,
+  {
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},    
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},    
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH},
+    {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW},    
+    {HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH,HIGH}
+  }
+};
+
+CylinderEventDef Events[] = 
+{
+event1, event2
+};
